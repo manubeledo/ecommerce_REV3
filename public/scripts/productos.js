@@ -5,7 +5,7 @@ const templateCard = document.getElementById('template-card').content
 const templateFooter = document.getElementById('template-footer').content
 const templateCarrito = document.getElementById('template-carrito').content
 const fragment = document.createDocumentFragment()
-// sessionStorage.setItem('carrito', {})
+sessionStorage.setItem('carrito', {})
 let carrito = {}
 let carritos = {}
 let compra = {}
@@ -39,7 +39,7 @@ const fetchData = async () => {
 const carritosData = async () => {
     try{
         if (sessionStorage.getItem('carrito') != ''){
-            // carrito = JSON.parse(sessionStorage.getItem('carrito'))
+            carrito = JSON.parse(sessionStorage.getItem('carrito'))
             pintarCarrito()
         }
     } catch(err) {
@@ -97,7 +97,7 @@ const createCarrito = async (objeto) => {
 
     carrito[producto.id] = {...producto}
 
-    // sessionStorage.setItem('carrito', JSON.stringify(carrito))
+    sessionStorage.setItem('carrito', JSON.stringify(carrito))
     
     // await refreshCar()
     
@@ -186,7 +186,7 @@ const btnAccion = e => {
         const producto = carrito[e.target.dataset.id]
         producto.cantidad++
         carrito[e.target.dataset.id] = { ...producto }
-        // sessionStorage.setItem('carrito', JSON.stringify(carrito))
+        sessionStorage.setItem('carrito', JSON.stringify(carrito))
         refreshCar()
         pintarCarrito()
     }
@@ -212,7 +212,7 @@ async function buyCarritos(){
         body: JSON.stringify(compra), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
       })
-    // sessionStorage.setItem('carrito', JSON.stringify(carrito))
+    sessionStorage.setItem('carrito', JSON.stringify(carrito))
 }
 
 async function refreshCar(){
@@ -221,5 +221,5 @@ async function refreshCar(){
         body: JSON.stringify(carrito), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
       })
-    // sessionStorage.setItem('carrito', JSON.stringify(carrito))
+    sessionStorage.setItem('carrito', JSON.stringify(carrito))
 }
