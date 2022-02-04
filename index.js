@@ -35,8 +35,8 @@ passport.deserializeUser(function(id, done){
     done(null, { id: 1, name: "ADMIN"});
 })
 
-app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'views'));
+app.set("view engine", "ejs");
 
 app.get('/', (req, res) => res.render('index'))
 
