@@ -7,7 +7,7 @@ let PassportLocal = require('passport-local').Strategy;
 let path = require('path');
 let cors = require('cors')
 const serverRoutes = require("./routes");
-let PORT = 8080;
+let PORT = 5000;
 let app = express();
 
 app.use("/", express.static(path.join(__dirname,"public")));
