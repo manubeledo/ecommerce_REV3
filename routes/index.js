@@ -1,5 +1,6 @@
 let passport = require('passport');
 const { Router } = require("express");
+const { render } = require('express/lib/response');
 const router = Router(); 
 
 controllersProductos = require('../controllers MongoDb/controllers.productos')
@@ -9,6 +10,7 @@ function serverRouter(app){
     
     app.use("/api", router);
 
+    router.get('/', (req, res) => res.render('index'))
     router.post('/productos', controllersProductos.write)
     router.get('/productos', controllersProductos.read)
     router.put('/updateproductos', controllersProductos.update)
