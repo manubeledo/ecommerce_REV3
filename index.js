@@ -6,7 +6,7 @@ let session = require('cookie-session');
 let PassportLocal = require('passport-local').Strategy;
 let path = require('path');
 const serverRoutes = require("./routes");
-let PORT = 5000;
+let PORT = 5001;
 let app = express();
 
 app.use(express.static(path.join(__dirname,"public")));
