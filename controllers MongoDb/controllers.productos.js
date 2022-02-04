@@ -1,21 +1,23 @@
 const { productosModel : db } = require('../config/db')
 
- const write = async (req, res) => {
+const write = async (req, res) => {
     try {
         let producto = req.body
         console.log(req.body)
         await db.create(producto);
         res.redirect('./loadproduct')
-    } catch (error) {
+    } 
+    catch (error) {
         console.log('error en la creacion de producto' + error)
     }
- }
+}
 
 const read = async (req, res) => {
     try {
         let productos = await db.find()
         res.json(productos)
-    } catch (error) {
+    } 
+    catch (error) {
         console.log('error en la lectura de producto' + error)
     }
 }
@@ -32,7 +34,8 @@ const update = async (req, res) => {
         }
         await db.updateOne(filter, newProduct)
         res.json(`el producto con el id ${filter.id} ha sido modificado`)
-    } catch (error) {
+    } 
+    catch (error) {
         console.log('error en la lectura de producto' + error)
     }
 }
@@ -43,9 +46,9 @@ const deleted = async (req, res) => {
         await db.deleteOne(id)
         res.send(`producto con el id ${id} eliminado`)
         
-    } catch (error) {
+    } 
+    catch (error) {
         console.log('error eliminando producto' + error)
-
     }
 }
 
@@ -56,9 +59,9 @@ const deleteProduct = async (req, res) => {
         await db.deleteOne({id_producto : id})
         res.send(`producto con el id ${id} eliminado`)
         
-    } catch (error) {
+    } 
+    catch (error) {
         console.log('error eliminando producto' + error)
-
     }
 }
 

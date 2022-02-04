@@ -3,27 +3,12 @@ let passport = require('passport');
 const { Router } = require("express");
 const router = Router(); 
 
-//     case 'mariadb':
-        // let controllersProductos = require('../controllers Mariadb/controllers.productos')
-        // let controllersCarritos = require('../controllers Mariadb/controllers.carritos')
-    
-//     case 'firebase':
-        // controllersProductos = require('../controllers Firebase/controllers.productos')
-        // controllersCarritos = require('../controllers Firebase/controllers.carritos')
-
-//     case 'mongodb':
-        controllersProductos = require('../controllers MongoDb/controllers.productos')
-        controllersCarritos = require('../controllers MongoDb/controllers.carritos')    
-
-//     case 'sqlite':
-//         controllersProductos = require('../controllers Sqlite/controllers.productos')
-//         controllersCarritos = require('../controllers Sqlite/controllers.carritos')
-
+controllersProductos = require('../controllers MongoDb/controllers.productos')
+controllersCarritos = require('../controllers MongoDb/controllers.carritos')    
 
 function serverRouter(app){
     
     app.use("/api", router);
-
 
     router.post('/productos', controllersProductos.write)
     router.get('/productos', controllersProductos.read)
@@ -34,7 +19,6 @@ function serverRouter(app){
     router.post('/carritos', controllersCarritos.write)
     router.get('/carritos', controllersCarritos.read)
     router.delete('/carritos/:id', controllersCarritos.deleted)
-
 
     // Me trae todos los productos por id por GET en un JSON //
     router.get('/productos/:id', (req, res) => {
@@ -53,7 +37,7 @@ function serverRouter(app){
                     res.send(object)
                 }
             }
-        catch (err) {
+            catch (err) {
                     console.log(err);
                 }
             }
@@ -87,9 +71,6 @@ function serverRouter(app){
         successRedirect: "/api/loadproduct",
         failureRedirect: "login"
     }));
-    
-    router.get('/:id/productos', (req, res) => {
-    });
 
     // Envia error si la ruta es inexistente //
     router.get('/:params', (req, res) => {
