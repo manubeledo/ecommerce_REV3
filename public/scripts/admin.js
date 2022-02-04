@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => { fetchData() });
 const fetchData = async () => {
     try{
         console.log("desde el fetch")
-        const res = await fetch('http://localhost:8080/api/carritos')
-        const resProd = await fetch('http://localhost:8080/api/productos')
+        const res = await fetch('http://localhost:5000/api/carritos')
+        const resProd = await fetch('http://localhost:5000/api/productos')
         const datos = await res.json()
         const product = await resProd.json()
         for (let j in datos){

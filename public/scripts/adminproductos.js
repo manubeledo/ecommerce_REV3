@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => { fetchData() });
 const fetchData = async () => {
     try{
         console.log("desde el fetch")
-        const resProd = await fetch('http://localhost:8080/api/productos')
+        const resProd = await fetch('http://localhost:5000/api/productos')
         const product = await resProd.json()
         pintarProductos(product);
     } catch(err) {
@@ -53,7 +53,7 @@ const deleteProduct = async (id) => {
     let idnum = {
         "idnum" : `${id}`
     }
-    await fetch(`http://localhost:8080/api/producto/${id}`, {
+    await fetch(`http://localhost:5000/api/producto/${id}`, {
         method: 'POST',
         body: JSON.stringify(idnum),
         headers:{ 'Content-Type': 'application/json' }

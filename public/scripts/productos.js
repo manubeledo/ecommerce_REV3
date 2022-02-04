@@ -24,7 +24,7 @@ items.addEventListener('click', e => {
 
 const fetchData = async () => {
     try{
-        const res = await fetch('http://localhost:8080/api/productos');
+        const res = await fetch('http://localhost:5000/api/productos');
         const data = await (res.json());
         console.log("FETCH DATA =>", data);
         pintarCards(data);
@@ -207,7 +207,7 @@ const btnAccion = e => {
 }
 
 async function buyCarritos(){
-    await fetch("http://localhost:8080/api/carritos", {
+    await fetch("http://localhost:5000/api/carritos", {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(compra), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
@@ -216,7 +216,7 @@ async function buyCarritos(){
 }
 
 async function refreshCar(){
-    await fetch("http://localhost:8080/api/carrito", {
+    await fetch("http://localhost:5000/api/carrito", {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(carrito), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
