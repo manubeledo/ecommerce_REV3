@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => { fetchData() });
 const fetchData = async () => {
     try{
         console.log("desde el fetch")
-        const res = await fetch('http://localhost:5000/api/carritos')
-        const resProd = await fetch('http://localhost:5000/api/productos')
+        const res = await fetch('/api/carritos')
+        const resProd = await fetch('/api/productos')
         const datos = await res.json()
         const product = await resProd.json()
         for (let j in datos){
@@ -75,7 +75,7 @@ items.addEventListener('click', e => {
 
 const btnAccion = async (e) => {
     if (e.target.classList.contains('btn-danger')) {
-        await fetch(`http://localhost:8080/api/carritos/${e.target.dataset.id}`, {
+        await fetch(`/api/carritos/${e.target.dataset.id}`, {
             method: 'DELETE',
             headers:{ 'Content-Type': 'application/json' }
           })
