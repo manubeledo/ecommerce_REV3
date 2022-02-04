@@ -3,7 +3,6 @@ require('dotenv').config();
 let mongoose = require('mongoose')
 
 const MONGO_DB = process.env.MONGO_DB_URI;
-const DB_NAME = process.env.DB_NAME;
 const CONNECT = `${MONGO_DB}`
 
 let connection = null;
