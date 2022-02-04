@@ -40,11 +40,9 @@ passport.deserializeUser(function(id, done){
 })
 
 app.set("view engine", "ejs");
-app.set("views", "./views");
+app.set("views", path.join(__dirname, 'views'));
 
-app.get('/', (req, res) => {
-    res.redirect('/api/index')
-});
+app.get('/', (req, res) => res.render('index'))
 
 app.get('/:params', (req, res) => {
         let object = {
