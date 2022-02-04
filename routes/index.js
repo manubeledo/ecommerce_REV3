@@ -1,4 +1,3 @@
-let database = 'mariadb';
 let passport = require('passport');
 const { Router } = require("express");
 const router = Router(); 
