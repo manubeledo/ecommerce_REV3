@@ -6,12 +6,12 @@ let session = require('cookie-session');
 let PassportLocal = require('passport-local').Strategy;
 let path = require('path');
 const serverRoutes = require("./routes");
-let PORT = 5001;
+let PORT = 5000;
 let app = express();
 
 app.use(express.static(path.join(__dirname,"public")));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser('un secreto'));
 app.use(session ({
     secret: 'un secreto',
