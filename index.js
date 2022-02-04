@@ -27,12 +27,10 @@ passport.use(new PassportLocal(function(username, password, done){
     done(null, false);
 }))
 
-// 1 => Serializacion
 passport.serializeUser(function(user, done){
     done(null, user.id);
 });
 
-// 2 => Deserializacion
 passport.deserializeUser(function(id, done){
     done(null, { id: 1, name: "ADMIN"});
 })
@@ -47,7 +45,7 @@ app.get('/:params', (req, res) => {
             error: -2,
             descripcion: `Ruta '/${req.params.params}' por metodo ${req.method} no implementada`
             }
-            res.send(object)
+        res.send(object)
 });
 
 serverRoutes(app);
