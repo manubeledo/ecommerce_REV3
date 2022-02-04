@@ -1,11 +1,11 @@
-let fs = require('fs');
+// let fs = require('fs');
 let express = require('express');
 let passport = require('passport');
 let cookieParser = require('cookie-parser');
 let session = require('cookie-session');
 let PassportLocal = require('passport-local').Strategy;
 let path = require('path');
-const serverRoutes = require("./routes");
+// const serverRoutes = require("./routes");
 let PORT = 5000;
 let app = express();
 
@@ -48,7 +48,7 @@ app.get('/:params', (req, res) => {
         res.send(object)
 });
 
-serverRoutes(app);
+// serverRoutes(app);
 
 app.listen(PORT, () => {
     console.log(`Server funcionando en http://localhost:${PORT}`);
