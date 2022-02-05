@@ -8,6 +8,7 @@ let path = require('path');
 const serverRoutes = require("./routes");
 let PORT = process.env.PORT || 3000;
 let app = express();
+console.log(process.env.NODE_ENV)
 
 app.use(express.static(path.join(__dirname,"public")));
 app.use(express.json());

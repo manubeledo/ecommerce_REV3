@@ -1,6 +1,7 @@
 const templateProducto = document.getElementById('template-producto').content
 const products = document.getElementById('products')
 const fragment = document.createDocumentFragment()
+const btnform = document.getElementById('btn-form')
 
 document.addEventListener('DOMContentLoaded', () => { fetchData() });
 

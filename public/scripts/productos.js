@@ -211,7 +211,7 @@ async function buyCarritos(){
         method: 'POST', // or 'PUT'
         body: JSON.stringify(compra), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
-      })
+    })
     sessionStorage.setItem('carrito', JSON.stringify(carrito))
 }
 
@@ -220,6 +220,7 @@ async function refreshCar(){
         method: 'POST', // or 'PUT'
         body: JSON.stringify(carrito), // data can be `string` or {object}!
         headers:{ 'Content-Type': 'application/json' }
-      })
+    })
     sessionStorage.setItem('carrito', JSON.stringify(carrito))
 }
+

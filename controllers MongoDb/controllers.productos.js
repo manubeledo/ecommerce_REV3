@@ -9,6 +9,8 @@ const write = async (req, res) => {
     } 
     catch (error) {
         console.log('error en la creacion de producto' + error)
+        res.write(`<script>alert("No se puede cargar este producto")</script>`).redirect('./loadproduct')
+        
     }
 }
 

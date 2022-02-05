@@ -3,6 +3,9 @@ PARA EL LOGIN USAR:
 USUARIO: admin
 PASSOWORD: 1234
 
-PARA USAR LAS BASES DE DATOS:
+TAREAS:
 
-1) Todavia no funciona la ruta carritos
+1) Ruta carritos
+2) Agregar Alert mejorado en el ejs de loadproduct
+3) 
+

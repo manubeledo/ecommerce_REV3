@@ -4,12 +4,16 @@ const { render } = require('express/lib/response');
 const router = Router(); 
 
 controllersProductos = require('../controllers MongoDb/controllers.productos')
-controllersCarritos = require('../controllers MongoDb/controllers.carritos')    
+controllersCarritos = require('../controllers MongoDb/controllers.carritos')
+
+let host = ''
+
+if(process.env.NODE_ENV === 'development') host = 'http://localhost:5000'
 
 function serverRouter(app){
     
-    app.use("/api", router);
-
+    app.use('/api', router);
+    
     router.get('/index', (req, res) => res.render('index'))
     router.post('/productos', controllersProductos.write)
     router.get('/productos', controllersProductos.read)

@@ -20,7 +20,10 @@ let connection = null;
 const Schema = mongoose.Schema;
 
 const productosSchema = new Schema({
-    id_producto: Number(), 
+    id_producto: { type: Number, 
+        required: true,
+        unique: true
+    },
     name: String(),
     description: Number(),
     price:String(),

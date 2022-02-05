@@ -78,7 +78,7 @@ const btnAccion = async (e) => {
         await fetch(`/api/carritos/${e.target.dataset.id}`, {
             method: 'DELETE',
             headers:{ 'Content-Type': 'application/json' }
-          })
+        })
         window.location.href = window.location.href
     }
     e.stopPropagation()
