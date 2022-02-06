@@ -1,6 +1,6 @@
 // const db = require('./index')
 require('dotenv').config();
-let mongoose = require('mongoose')
+let mongoose = require('mongoose');
 
 const MONGO_DB = process.env.MONGO_DB_URI;
 const CONNECT = `${MONGO_DB}`
@@ -28,7 +28,7 @@ const productosSchema = new Schema({
     description: Number(),
     price:String(),
     thumbnail: String(),
-    stock: Number()
+    stock: Number
 })
 
 const carritosSchema = new Schema({
@@ -36,8 +36,19 @@ const carritosSchema = new Schema({
     productos_carrito:[]
 })
 
+const signUpSchema = new Schema({
+    username: String(),
+    userage: Number,
+    adress: String(),
+    userintcod: Number,
+    userareacod: Number,
+    email: String(),
+    password: String()
+})
+
 const productosModel = mongoose.model('productos', productosSchema)
 const carritosModel = mongoose.model('carritos', carritosSchema)
+const User = mongoose.model('User', signUpSchema)
 
-module.exports = { productosModel, carritosModel }
+module.exports = { productosModel, carritosModel, User }
 

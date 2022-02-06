@@ -1,14 +1,10 @@
 let passport = require('passport');
 const { Router } = require("express");
-const { render } = require('express/lib/response');
 const router = Router(); 
 
+controllersAuthenticate = require('../controllers MongoDb/controllers.authenticate')
 controllersProductos = require('../controllers MongoDb/controllers.productos')
 controllersCarritos = require('../controllers MongoDb/controllers.carritos')
-
-let host = ''
-
-if(process.env.NODE_ENV === 'development') host = 'http://localhost:5000'
 
 function serverRouter(app){
     
@@ -67,17 +63,28 @@ function serverRouter(app){
     });
 
     // Carga la ruta login //
+    router.get('/signup', (req, res) => {
+        res.render('signup');
+    });
+
+    router.post('/signup', controllersAuthenticate.newUser);
+
     router.get('/login', (req, res) => {
         res.render('login');
     });
 
-    // Recibe credenciales e inicia sesion //
+    // Internally passport recieves req.body and use username and password from it
+    // As default passport recieves 'local' but it can be set with other name, must be the
+    // same in the first argument of LocalStragegy
     router.post('/login', passport.authenticate('local',{
         successRedirect: "/api/loadproduct",
         failureRedirect: "login"
     }));
 
-    // Envia error si la ruta es inexistente //
+    router.get('/logout', (req, res) => {
+        res.redirect('login');
+    })
+
     router.get('/:params', (req, res) => {
         let object = {
             error: -2,
