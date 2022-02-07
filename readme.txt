@@ -9,9 +9,9 @@ TAREAS:
 2) Agregar Alert mejorado en el ejs de loadproduct
 3) Registro de usuarios en login
     Guardar credenciales: email, password, nombre, direccion, edad, telefono con codigo de area y codigo internacional y foto
-    useremail ✔️- userpass ✔️- username ✔️ - useradress  ✔️ - userage ✔️ - userareacod ✔️ - userintcod ✔️ - userpic
+    useremail ✔️- userpass ✔️- username ✔️ - useradress  ✔️ - userage ✔️ - userareacod ✔️ - userintcod ✔️ - userpic ✔️
 4) Guardar las fotos en public ✔️
-5) Generar una ruta a public para acceder a todas las fotos ✔️
+5) Generar una ruta a public para acceder a todas las fotos
 6) Registro y logueo automatico despues del Registro 
 7) Enviar un mail cada vez que se registra un usuario nuevo
     Con asunto: 'Nuevo Registro' y cuerpo: 'Datos de usuario'
