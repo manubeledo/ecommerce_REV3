@@ -1,6 +1,19 @@
 let passport = require('passport');
 const { Router } = require("express");
-const router = Router(); 
+const router = Router();
+const multer = require('multer')
+const mimeTypes = require('mime-types')
+
+const storage = multer.diskStorage({
+    destination: 'public/uploads',
+    filename: function(req, file, cb){
+        cb("", Date.now() + file.originalname + "." + mimeTypes.extension(file.mimetype));
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
 
 controllersAuthenticate = require('../controllers MongoDb/controllers.authenticate')
 controllersProductos = require('../controllers MongoDb/controllers.productos')
@@ -67,7 +80,7 @@ function serverRouter(app){
         res.render('signup');
     });
 
-    router.post('/signup', controllersAuthenticate.newUser);
+    router.post('/signup', upload.single('userpic'), controllersAuthenticate.newUser);
 
     router.get('/login', (req, res) => {
         res.render('login');

@@ -14,7 +14,7 @@ passport.serializeUser(function(user, done){
     console.log(`Desde serializeUser: ${user}`)
     done(null, user.id);
 });
-// no entiendo exactamente para que funciona, investigar!
+// no entiendi como funciona, investigar!
 passport.deserializeUser(async (id, done) => {
     done(null, { id: 1, name: 'ADMIN'});
 })
