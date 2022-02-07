@@ -39,11 +39,11 @@ const carritosSchema = new Schema({
 const signUpSchema = new Schema({
     username: String(),
     userage: Number,
-    adress: String(),
+    useradress: String(),
     userintcod: Number,
     userareacod: Number,
-    email: String(),
-    password: String()
+    useremail: String(),
+    userpass: String()
 })
 
 const productosModel = mongoose.model('productos', productosSchema)

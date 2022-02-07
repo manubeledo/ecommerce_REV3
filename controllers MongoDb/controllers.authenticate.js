@@ -2,16 +2,7 @@ const { User : db } = require('../config/db')
 
 const newUser = async(req, res) => {
     console.log(req.body);
-    let user  = req.body
-    let object = {
-        username: user.username,
-        userage: user.userage,
-        adress: user.useradress,
-        userintcod: user.userintcod,
-        userareacod: user.userareacod,
-        email: user.useremail,
-        password: user.userpass
-        }
+    let object = req.body
     try {
         await db.create(object)
         res.send("Usuario creado con exito!")     

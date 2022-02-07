@@ -80,7 +80,12 @@ function serverRouter(app){
         res.render('signup');
     });
 
-    router.post('/signup', upload.single('userpic'), controllersAuthenticate.newUser);
+    // router.post('/signup', upload.single('userpic'), controllersAuthenticate.newUser);
+
+    router.post('/signup', upload.single('userpic'),  passport.authenticate('signup',{
+        successRedirect: "/api/index",
+        failureRedirect: "login"
+    }));
 
     router.get('/login', (req, res) => {
         res.render('login');
@@ -89,7 +94,7 @@ function serverRouter(app){
     // Internally passport recieves req.body and use username and password from it
     // As default passport recieves 'local' but it can be set with other name, must be the
     // same in the first argument of LocalStragegy
-    router.post('/login', passport.authenticate('local',{
+    router.post('/login', passport.authenticate('login',{
         successRedirect: "/api/loadproduct",
         failureRedirect: "login"
     }));

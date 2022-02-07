@@ -30,11 +30,11 @@ app.use(session ({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-    console.log(req.session); // Session {}
-    console.log(req.user); //undefined
-    next()
-});
+// app.use((req, res, next) => {
+//     console.log(req.session); // Session {}
+//     console.log(req.user); //undefined
+//     next()
+// });
 
 app.set("views", path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
