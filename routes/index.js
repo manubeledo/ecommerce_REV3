@@ -15,7 +15,6 @@ const upload = multer({
     storage: storage
 })
 
-controllersAuthenticate = require('../controllers MongoDb/controllers.authenticate')
 controllersProductos = require('../controllers MongoDb/controllers.productos')
 controllersCarritos = require('../controllers MongoDb/controllers.carritos')
 
