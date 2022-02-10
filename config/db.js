@@ -26,8 +26,8 @@ const productosSchema = new Schema({
         unique: true
     },
     name: String(),
-    description: Number(),
-    price:String(),
+    description: String(),
+    price:Number(),
     thumbnail: String(),
     stock: Number()
 })
@@ -49,6 +49,7 @@ const signUpSchema = new Schema({
 
 const productosModel = mongoose.model('productos', productosSchema)
 const carritosModel = mongoose.model('carritos', carritosSchema)
+
 const User = mongoose.model('User', signUpSchema)
 
 module.exports = { productosModel, carritosModel, User }

@@ -35,4 +35,4 @@ TAREAS.
     - Fecha ✔️
     - Accion: En preparacion, en camino, completada. ✔️
 3) Crear el schema del carrito para poder destructurarlo y enviarlo por correo. LINEA 164 scripts/productos.js 
-4)    
+4)   
