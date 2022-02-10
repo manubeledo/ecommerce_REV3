@@ -20,7 +20,8 @@ let connection = null;
 const Schema = mongoose.Schema;
 
 const productosSchema = new Schema({
-    id_producto: { type: Number, 
+    id_producto: { 
+        type: Number, 
         required: true,
         unique: true
     },
@@ -28,7 +29,7 @@ const productosSchema = new Schema({
     description: Number(),
     price:String(),
     thumbnail: String(),
-    stock: Number
+    stock: Number()
 })
 
 const carritosSchema = new Schema({

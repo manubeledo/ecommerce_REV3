@@ -3,11 +3,16 @@ const { Router } = require("express");
 const router = Router();
 const multer = require('multer')
 const mimeTypes = require('mime-types')
+const { User : db } = require('../config/db')
 
 const storage = multer.diskStorage({
     destination: 'public/uploads',
-    filename: function(req, file, cb){
-        cb("", Date.now() + file.originalname + "." + mimeTypes.extension(file.mimetype));
+    filename: async function(req, file, cb, next){
+        console.log(`desde multer ${req.body.username}`)
+        let userData = await db.findOne({username : req.body.username})
+        console.log(userData)
+        if (!userData) cb("", Date.now() + req.body.username + "." + mimeTypes.extension(file.mimetype));
+        cb("", "return")
     }
 })
 
@@ -17,6 +22,7 @@ const upload = multer({
 
 controllersProductos = require('../controllers MongoDb/controllers.productos')
 controllersCarritos = require('../controllers MongoDb/controllers.carritos')
+controllersAvatar = require('../controllers MongoDb/controllers.avatar')
 
 function serverRouter(app){
     
@@ -32,6 +38,8 @@ function serverRouter(app){
     router.post('/carritos', controllersCarritos.write)
     router.get('/carritos', controllersCarritos.read)
     router.delete('/carritos/:id', controllersCarritos.deleted)
+
+    router.get('/avatares', controllersAvatar.avatar)
 
     // Me trae todos los productos por id por GET en un JSON //
     router.get('/productos/:id', (req, res) => {

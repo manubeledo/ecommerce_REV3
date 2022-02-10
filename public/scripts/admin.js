@@ -4,7 +4,6 @@ const items = document.getElementById('items')
 const nombre = document.getElementById('id-carrito')
 const fragment = document.createDocumentFragment()
 
-
 document.addEventListener('DOMContentLoaded', () => { fetchData() });
 
 // Brings all data 
@@ -12,8 +11,9 @@ const fetchData = async () => {
     try{
         console.log("desde el fetch")
         const res = await fetch('/api/carritos')
-        const resProd = await fetch('/api/productos')
         const datos = await res.json()
+        console.log(datos)
+        const resProd = await fetch('/api/productos')
         const product = await resProd.json()
         for (let j in datos){
             for (let i in product){
@@ -58,7 +58,6 @@ const pintarProductos = (datos) => {
         templateProducto.querySelectorAll('td')[3].textContent = producto.price
         templateProducto.querySelectorAll('td')[4].textContent = producto.thumbnail
         templateProducto.querySelectorAll('td')[5].textContent = producto.stock
-
 
         // templateProducto.querySelector('.btn-info').dataset.id = producto.id
         templateProducto.querySelector('.btn-danger').dataset.id = producto.id_producto

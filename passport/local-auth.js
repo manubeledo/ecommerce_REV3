@@ -19,7 +19,7 @@ passport.use('signup', new LocalStrategy({
     console.log(`Desde passport signup`)
     try{ 
         let userData = await db.findOne({username : username}) // the second username comes as a param from routes
-        console.log(userData)
+        // console.log(`DESDE PASSPORT signup ${userData}`)
         if(userData) {
             console.log(`El usuario ya existe!`)
             return done(null, false)

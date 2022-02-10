@@ -4,6 +4,7 @@ const footer = document.getElementById('footer')
 const templateCard = document.getElementById('template-card').content
 const templateFooter = document.getElementById('template-footer').content
 const templateCarrito = document.getElementById('template-carrito').content
+const buy = document.querySelector('#buy-carrito')
 const fragment = document.createDocumentFragment()
 sessionStorage.setItem('carrito', {})
 let carrito = {}
@@ -159,15 +160,13 @@ const pintarFooter = () => {
         refreshCar()
         pintarCarrito()
     })
-
-    const buy = document.querySelector('#buy-carrito')
     
     buy.addEventListener('click', async () => {
 
         console.log('Compra del carrito')
         console.log(carrito)
 
-        let id_carrito = Math.floor(Date.now()/1000)
+        let id_carrito = Math.floor(Date.now()/1000) //timestamp de la compra 1 dato
 
         Object.values(carrito).forEach((producto, indice) => {
             compra[indice] = {id_carrito, id_producto: Number(producto.id), cantidad: producto.cantidad}
