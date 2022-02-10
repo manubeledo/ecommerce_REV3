@@ -1,4 +1,4 @@
-module.exports.sendSMS = (bodySMS)=>{
+module.exports.sendSMS = (body)=>{
 
 require('dotenv').config()
 
@@ -8,16 +8,11 @@ const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN
 const messageConfig={
     to: process.env.MARTIN_PHONE_NUMBER,
     from: process.env.TWILIO_PHONE_NUMBER,
-    body: `Numero de pedido creado ${bodySMS} y procesado`
+    body: `Numero de pedido creado ${body} y procesado`
 }
-
 const client = require ('twilio')(twilioAccountSID, twilioAuthToken)
 
 client.messages.create(messageConfig)
     .then(message => console.log('mensaje enviado ', message.sid))
     .done()
-
-client.messages.create(messageConfig)
-      .then(message => console.log('mensaje enviado ', message.sid)) 
-      .done();
 }

@@ -51,12 +51,11 @@ async function newuserEmail(req, res, next){
       console.log(infoNewUser.messageId)
 }
 async function newPurchaseEmail(cart){
-  
-  
-  
+    
   let cartArray = Object.values(cart)
   
   sendSMS(cartArray[0].id_carrito)
+  sendWAPP(cartArray[0].id_carrito)
   
   let tablePurchaseHTML= `
   <h1>Detalle de compra</h1>
