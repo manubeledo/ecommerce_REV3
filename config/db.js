@@ -24,11 +24,11 @@ const productosSchema = new Schema({
         required: true,
         unique: true
     },
-    name: String(),
-    description: Number(),
-    price:String(),
-    thumbnail: String(),
-    stock: Number()
+    name: String,
+    description: String,
+    price: Number,
+    thumbnail: String,
+    stock: Number
 })
 
 const carritosSchema = new Schema({

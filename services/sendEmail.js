@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer')
 const path = require('path')
-const { carritosModel : db } = require('../config/db')
-const { sendSMS } = require('./sendSMSCarrito.js')
-
+const { productosModel : dbproducto } = require('../config/db')
+const {sendSMS}  = require('./sendSMSCarrito.js')
 
 const gmailUser = 'martin.ariel.riveros@gmail.com'
 const gmailpass = 'wbfyjvnnqbyolkbw'
@@ -49,48 +48,37 @@ async function newuserEmail(req, res, next){
       };
 
       const infoNewUser = await transporter.sendMail(messageNewUSer)  
-      console.log(infoNewUser.messageID)
+      console.log(infoNewUser.messageId)
 }
 async function newPurchaseEmail(cart){
   
   
-  let tableEmailHTML=''
+  
   let cartArray = Object.values(cart)
+  
   sendSMS(cartArray[0].id_carrito)
-  cartArray.forEach(element=>{
-    db.findOne({id_carrito:element.id_carrito}, function(err, arr){
-      let registro = arr
-      console.log(registro)
-    })
-
-    tableEmailHTML+= `
-    Id producto: ${element.id_producto} - cant: ${element.cantidad}
-    `
-
-  })
-
-  let emailMessageHTML = `El numero de pedido :${cartArray[0].id_carrito}
-                          ${tableEmailHTML}
-  `
-  console.log(emailMessageHTML)
   
-//   let emailNewPurchase = `
-//                       <h1>Detalle de compra</h1>
+  let tablePurchaseHTML= `
+  <h1>Detalle de compra</h1>
+  <h2>pedido ${cartArray[0].id_carrito}</h2>
+`
+  for (const element of cartArray){
 
-  
-// `
-// let messageNewPurchase = {
-//                             from: gmailUser,
-//                             to:'martin.riveros@hotmail.com',
-//                             subject: `Nuevo pedido de: ${username} - ${useremail}`,
-//                             html: emailNewPurchase
-// };
+  const articulo =  await dbproducto.findOne({id_producto:element.id_producto})
 
-// const infoNewPurchase = await transporter.sendMail(messageNewPurchase)  
-// console.log(infoNewPurchase.messageID)
+  tablePurchaseHTML += `
+                      <h3>Articulo:${articulo.name} </h3><h3>Precio unitario:${articulo.price}</h3><h3>Cantidad:${element.cantidad}</h3><h3>Precio total del item:${articulo.price*element.cantidad}</h3> 
+                      `;
+}
+let messageNewPurchase = {
+                            from: gmailUser,
+                            to:'martin.riveros@hotmail.com',
+                            subject: `Nuevo pedido de: ${username} - ${useremail}`,
+                            html: tablePurchaseHTML
+};
 
-
-
+const infoNewPurchase = await transporter.sendMail(messageNewPurchase)  
+console.log(infoNewPurchase.messageId)
 
 }
 
