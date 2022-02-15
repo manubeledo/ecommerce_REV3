@@ -4,7 +4,6 @@ const footer = document.getElementById('footer')
 const templateCard = document.getElementById('template-card').content
 const templateFooter = document.getElementById('template-footer').content
 const templateCarrito = document.getElementById('template-carrito').content
-const buy = document.querySelector('#buy-carrito')
 const fragment = document.createDocumentFragment()
 sessionStorage.setItem('carrito', {})
 let carrito = {}
@@ -18,11 +17,9 @@ document.addEventListener('DOMContentLoaded', () => { carritosData() });
 cards.addEventListener('click', e => {
     addCarrito(e)
 })
-
 items.addEventListener('click', e => {
     btnAccion(e)
 })
-
 const fetchData = async () => {
     try{
         const res = await fetch('/api/productos');
@@ -33,10 +30,6 @@ const fetchData = async () => {
         console.log("ERROR DESDE EL FETCH", err)
     }
 }
-
-// sessionStorage.setItem('carrito', JSON.stringify(carrito))
-// sessionStorage.getItem('carrito')
-
 const carritosData = async () => {
     try{
         if (sessionStorage.getItem('carrito') != ''){
@@ -47,8 +40,6 @@ const carritosData = async () => {
         console.log(err)
     }
 }
-
-// SE CREAN LAS CARDS //
 const pintarCards = data => {
     data.forEach(producto => {
         templateCard.getElementById('card-name').textContent = producto.name
@@ -63,19 +54,12 @@ const pintarCards = data => {
     })
     cards.appendChild(fragment)
 }
-
 const addCarrito = e => {
-    console.log(e.target);
-    console.log(e.target.parentElement)
-    // console.log(e.target.classList.contains('button'));
     if (e.target.classList.contains('button')) {
         createCarrito(e.target.parentElement)
     }
     e.stopPropagation()
 }
-
-// SE CREA EL CARRITO //
-
 const createCarrito = async (objeto) => {
     const producto = {
         id: objeto.querySelector('.btn-dark').dataset.id,
@@ -104,9 +88,6 @@ const createCarrito = async (objeto) => {
     
     pintarCarrito()
 }
-
-// SE PINTA EL CARRITO //
-
 const pintarCarrito = async () => {
     items.innerHTML = '';
     Object.values(carrito).forEach(producto => {
@@ -129,9 +110,6 @@ const pintarCarrito = async () => {
     // await refreshCar()
     pintarFooter()
 }
-
-// SE CREA EL FOOTER //
-
 const pintarFooter = () => {
     footer.innerHTML = ''
     
@@ -160,13 +138,15 @@ const pintarFooter = () => {
         refreshCar()
         pintarCarrito()
     })
-    
+
+    const buy = document.querySelector('#buy-carrito')
+
     buy.addEventListener('click', async () => {
 
         console.log('Compra del carrito')
         console.log(carrito)
 
-        let id_carrito = Math.floor(Date.now()/1000) //timestamp de la compra 1 dato
+        let id_carrito = Math.floor(Date.now()/1000)
 
         Object.values(carrito).forEach((producto, indice) => {
             compra[indice] = {id_carrito, id_producto: Number(producto.id), cantidad: producto.cantidad}
@@ -177,9 +157,6 @@ const pintarFooter = () => {
         pintarCarrito()
     })
 }
-
-// SE CREA LA ACCION DE LOS BOTONES PARA AUMENTAR Y DISMINUIR CANTIDAD//
-
 const btnAccion = e => {
     if (e.target.classList.contains('btn-info')) {
         const producto = carrito[e.target.dataset.id]
@@ -204,17 +181,23 @@ const btnAccion = e => {
     }
     e.stopPropagation()
 }
-
-async function buyCarritos(){
-    await fetch("/api/carritos", {
+const buyCarritos = async () =>{
+    sessionStorage.setItem('carrito', JSON.stringify(carrito))
+    await fetch("/api/buy", {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(compra), // data can be `string` or {object}!
-        headers:{ 'Content-Type': 'application/json' }
+        headers:{ 'Content-Type': 'application/json' },
     })
-    sessionStorage.setItem('carrito', JSON.stringify(carrito))
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+    })
+    .catch(function(err) {
+        console.info(err + " url: " + url);
+    });
 }
-
-async function refreshCar(){
+const refreshCar = async () => {
     await fetch("/api/carrito", {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(carrito), // data can be `string` or {object}!
@@ -222,4 +205,3 @@ async function refreshCar(){
     })
     sessionStorage.setItem('carrito', JSON.stringify(carrito))
 }
-

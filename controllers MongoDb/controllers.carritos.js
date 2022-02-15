@@ -1,7 +1,8 @@
 const { carritosModel : db } = require('../config/db')
 
 const write = async (req, res) => {
-        // console.log(req.body) Recieves the purchase like an object.
+    console.log(req.session, req.user)
+    console.log(req) 
     let carrito  = req.body
     let object = {
         id : carrito[0].id_carrito,

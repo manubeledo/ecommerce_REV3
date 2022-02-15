@@ -27,7 +27,7 @@ passport.use('signup', new LocalStrategy({
             let object = req.body
             object.userpass = await createHash(userpass)
             await db.create(object)
-            console.log('usuario creado con exito!')
+            let userData = await db.findOne({username : username})
             return done(null, userData) 
         }
     } 
@@ -37,18 +37,28 @@ passport.use('signup', new LocalStrategy({
 }))
 
 passport.use('login', new LocalStrategy({
+    passReqToCallback: true,
     usernameField: 'username',
     passwordField: 'userpass'
-    }, async (username, userpass, done) =>{
+    }, async (username, userpass, done, req) =>{
         let userData = await db.findOne({username : username}) // the second username comes as a param from routes
         console.log(`console log de user respuesta :${userData}`)
         if(!validPassword(userData, userpass)){
             console.log('Invalid password')
             return done(null, false)
         }else{
-            done(null, userData)
+            return done(null, userData)
         };
 }))
+
+const checkForAuth = (req, res, next) =>{
+    if(req.isAuthenticated()){
+        next()
+    } else {
+    res.redirect('/api/login')
+    }
+}
+
 
 passport.serializeUser((user, done) => {
     done(null, user._id)
@@ -59,3 +69,5 @@ passport.deserializeUser((id, done) => {
     done(err, user)
 })
 })
+
+module.exports = checkForAuth;

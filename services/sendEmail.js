@@ -6,31 +6,25 @@ const {sendSMS}  = require('./sendSMSCarrito.js')
 const gmailUser = 'martin.ariel.riveros@gmail.com'
 const gmailpass = 'wbfyjvnnqbyolkbw'
 
-let useremail= gmailUser
-let username= 'martinriveros'
-let useradress='Altos de la Ribera L18'
-let userage= 45
-let userphone= +5493426142160
-let userpic= path.join(__dirname, './testavatar.jpg')
-
 const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    host: "smtp-relay.gmail.com",   //https://support.google.com/a/answer/176600?hl=es
-    port: 25,                      // three work 25, 465, 587
-    secure: false,                     // upgrade later with STARTTLS
-    auth: {
-      user: gmailUser,
-      pass: gmailpass,
-    },
-    tls:{
-      rejectUnauthorized: false   //matches the host to allow localhost or any other
-    }
-  });
+  service: 'Gmail',
+  host: "smtp-relay.gmail.com",   //https://support.google.com/a/answer/176600?hl=es
+  port: 25,                      // three work 25, 465, 587
+  secure: false,                     // upgrade later with STARTTLS
+  auth: {
+    user: gmailUser,
+    pass: gmailpass,
+  },
+  tls:{
+    rejectUnauthorized: false   //matches the host to allow localhost or any other
+  }
+});
 
-async function newuserEmail(req, res, next){
-  // const {useremail, userpass, username, useradress, userage, userphone, userpic } = req.body
+async function newuserEmail(data){
+
+  const {useremail, userpass, username, useradress, userage, userphone, userpic } = data[0]
   
-    let emailNewUser = `
+  let emailNewUser = `
             <h1>New user added</h1>
 
             <h3>email: ${useremail}</h3>
@@ -42,7 +36,7 @@ async function newuserEmail(req, res, next){
     `
     let messageNewUSer = {
         from: gmailUser,
-        to:'martin.riveros@hotmail.com',
+        to:'beledo.m@gmail.com',
         subject: "Nuevo Registro",
         html: emailNewUser
       };
@@ -50,6 +44,8 @@ async function newuserEmail(req, res, next){
       const infoNewUser = await transporter.sendMail(messageNewUSer)  
       console.log(infoNewUser.messageId)
 }
+
+
 async function newPurchaseEmail(cart){
     
   let cartArray = Object.values(cart)

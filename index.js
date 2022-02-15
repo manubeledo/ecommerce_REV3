@@ -6,13 +6,15 @@ let cookieParser = require('cookie-parser');
 let path = require('path');
 let morgan = require('morgan')
 let serverRoutes = require("./routes");
+let cors = require('cors')
 require('./passport/local-auth');
 
 let app = express();
 let PORT = process.env.PORT || 3000;
 
+// Middlewares
+app.use(cors('*'))
 app.use(express.static(path.join(__dirname,"public")));
-
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -26,7 +28,6 @@ app.use(session ({
         maxAge: 60 * 10 * 1000 // Equals 10 min. 
     }
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -3,7 +3,10 @@ const { Router } = require("express");
 const router = Router();
 const multer = require('multer')
 const mimeTypes = require('mime-types')
+const checkForAuth = require('../passport/local-auth')
 const { User : db } = require('../config/db')
+const { newuserEmail } = require('../services/sendEmail')
+
 
 const storage = multer.diskStorage({
     destination: 'public/uploads',
@@ -28,12 +31,14 @@ function serverRouter(app){
     
     app.use('/api', router);
     
-    router.get('/index', (req, res) => res.render('index'))
+    router.get('/index', comesFromSignup ,(req, res) => res.render('index'))
     router.post('/productos', controllersProductos.write)
     router.get('/productos', controllersProductos.read)
     router.put('/updateproductos', controllersProductos.update)
     router.delete('/deleteproductos', controllersProductos.deleted)
     router.post('/producto/:id', controllersProductos.deleteProduct)
+
+    router.post('/buy', checkForAuth, controllersCarritos.write)
 
     router.post('/carritos', controllersCarritos.write)
     router.get('/carritos', controllersCarritos.read)
@@ -90,7 +95,7 @@ function serverRouter(app){
     // router.post('/signup', upload.single('userpic'), controllersAuthenticate.newUser);
 
     router.post('/signup', upload.single('userpic'),  passport.authenticate('signup',{
-        successRedirect: "/api/index",
+        successRedirect: "index",
         failureRedirect: "login"
     }));
 
@@ -117,6 +122,19 @@ function serverRouter(app){
         }
         res.send(object)
     });
+
+    function comesFromSignup(req, res, next){
+
+        console.log('esto es req.route' , req.header('referer'))
+        if(req.header('referer') == `http://localhost:${process.env.PORT}/api/signup`){
+            console.log(req.user)
+            newuserEmail(req.user)
+            next()
+        } else{
+           
+            next()
+        }
+    }
 
 }
 module.exports = serverRouter;
