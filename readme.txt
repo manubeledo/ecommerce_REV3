@@ -27,12 +27,11 @@ TAREAS:
 
 TAREAS.
 
-1) Logout --> Cerrar sesion. Se hace con passport Logout
-2) Pestaña Carritos : 
-    - Usuario comprador
-    - Importe total ✔️
-    - N° orden (en este caso con timestamp pero seria mejor con numeros) ✔️
-    - Fecha ✔️
-    - Accion: En preparacion, en camino, completada. ✔️
-3) Crear el schema del carrito para poder destructurarlo y enviarlo por correo. LINEA 164 scripts/productos.js 
-4)   
+1)  Logout --> Cerrar sesion. Se hace con passport Logout
+3)  Pestaña carritos
+4)  MandarSMS ✔️
+5)  Mandar Mail con detalle productos, agregar  telefono y multer con foto ✔️
+6)  Boton de Logout 
+7)  Server con Artillery
+8)  Whatsapp
+9)  Cluster

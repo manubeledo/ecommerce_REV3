@@ -1,31 +1,15 @@
 let passport = require('passport');
 const { Router } = require("express");
 const router = Router();
-const multer = require('multer')
-const mimeTypes = require('mime-types')
 const checkForAuth = require('../passport/local-auth')
-const { User : db } = require('../config/db')
 const { newuserEmail } = require('../services/sendEmail')
+const upload = require('../http/middlewares/multer')
+const logger = require('../utils/logger')
 
 
-const storage = multer.diskStorage({
-    destination: 'public/uploads',
-    filename: async function(req, file, cb, next){
-        console.log(`desde multer ${req.body.username}`)
-        let userData = await db.findOne({username : req.body.username})
-        console.log(userData)
-        if (!userData) cb("", Date.now() + req.body.username + "." + mimeTypes.extension(file.mimetype));
-        cb("", "return")
-    }
-})
-
-const upload = multer({
-    storage: storage
-})
-
-controllersProductos = require('../controllers MongoDb/controllers.productos')
-controllersCarritos = require('../controllers MongoDb/controllers.carritos')
-controllersAvatar = require('../controllers MongoDb/controllers.avatar')
+controllersProductos = require('../http/controllers.productos')
+controllersCarritos = require('../http/controllers.carritos')
+controllersAvatar = require('../http/controllers.avatar')
 
 function serverRouter(app){
     
@@ -107,7 +91,7 @@ function serverRouter(app){
     // As default passport recieves 'local' but it can be set with other name, must be the
     // same in the first argument of LocalStragegy
     router.post('/login', passport.authenticate('login',{
-        successRedirect: "/api/loadproduct",
+        successRedirect: "/api/index",
         failureRedirect: "login"
     }));
 
@@ -120,21 +104,18 @@ function serverRouter(app){
             error: -2,
             descripcion: `ruta '/${req.params.params}' por metodo ${req.method} no implementada`
         }
+        logger.getLogger('warningFile').warn(`Try to access non existing route ${req.method} - ${req.url}`);
         res.send(object)
     });
 
     function comesFromSignup(req, res, next){
-
-        console.log('esto es req.route' , req.header('referer'))
         if(req.header('referer') == `http://localhost:${process.env.PORT}/api/signup`){
-            console.log(req.user)
+            logger.getLogger('consola').info(req.user)
             newuserEmail(req.user)
             next()
         } else{
-           
             next()
         }
     }
-
 }
 module.exports = serverRouter;

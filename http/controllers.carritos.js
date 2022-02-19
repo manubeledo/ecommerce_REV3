@@ -1,8 +1,8 @@
 const { carritosModel : db } = require('../config/db')
+const { newPurchase } = require('../services/sendEmail')
 
 const write = async (req, res) => {
-    console.log(req.session, req.user)
-    console.log(req) 
+    newPurchase(req.body)
     let carrito  = req.body
     let object = {
         id : carrito[0].id_carrito,
@@ -13,7 +13,7 @@ const write = async (req, res) => {
         res.send("Carrito creado con exito!")     
     } 
     catch (err) {
-        console.log('error al guardar el item ', err) 
+        logger.getLogger('outerror').error('error al guardar el item ', err) 
     }
 }
 
@@ -23,7 +23,7 @@ const read = async (req, res) => {
         res.json(carritos) 
     } 
     catch (err) {
-        console.log('error al leer los carritos', err)
+        logger.getLogger('outerror').error('error al leer los carritos', err)
     }
 }
 
@@ -34,7 +34,7 @@ const deleted = async (req, res) => {
         res.send(`carrito con el id ${id} eliminado`)
     } 
     catch (error) {
-        console.log('error eliminando producto' + error)
+        logger.getLogger('outerror').error('error eliminando producto' + error)
     }
 }
 

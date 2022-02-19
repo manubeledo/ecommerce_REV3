@@ -3,7 +3,7 @@ let fs = require('fs')
 const avatar = async (req, res) => {
     fs.readdir('./public/uploads', function (err, filespaths) {
         if (err) {
-        console.log(err);
+        logger.getLogger('outerror').error(err);
         return;
         }
         filespaths.pop()

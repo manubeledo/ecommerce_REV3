@@ -2,6 +2,7 @@ let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt')
 const { User : db } = require('../config/db')
+const logger = require('../utils/logger')
 
 function createHash(userpass){
     return bcrypt.hash(userpass, 10, null)
@@ -16,12 +17,12 @@ passport.use('signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'userpass'
 }, async (req, username, userpass, done) =>{
-    console.log(`Desde passport signup`)
+    
     try{ 
         let userData = await db.findOne({username : username}) // the second username comes as a param from routes
-        // console.log(`DESDE PASSPORT signup ${userData}`)
+        
         if(userData) {
-            console.log(`El usuario ya existe!`)
+            logger.getLogger('outwarning').warn(`El usuario ya existe!`)
             return done(null, false)
         }  else {
             let object = req.body
@@ -32,7 +33,7 @@ passport.use('signup', new LocalStrategy({
         }
     } 
     catch (err) {
-        console.log('error al guardar el item ', err) 
+        logger.getLogger('outerror').error('error al guardar el item ', err) 
     }
 }))
 
@@ -40,15 +41,18 @@ passport.use('login', new LocalStrategy({
     passReqToCallback: true,
     usernameField: 'username',
     passwordField: 'userpass'
-    }, async (username, userpass, done, req) =>{
+    }, async (req, username, userpass, done) =>{
+       try{ 
         let userData = await db.findOne({username : username}) // the second username comes as a param from routes
-        console.log(`console log de user respuesta :${userData}`)
         if(!validPassword(userData, userpass)){
-            console.log('Invalid password')
+            logger.getLogger('outwarning').warn('Invalid password')
             return done(null, false)
         }else{
             return done(null, userData)
         };
+        } catch (err) {
+            console.log(err)
+        }
 }))
 
 const checkForAuth = (req, res, next) =>{
@@ -66,7 +70,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     db.find({_id: id}, (err, user) => {
-    done(err, user)
+    done(null, user)
 })
 })
 

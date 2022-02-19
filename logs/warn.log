@@ -1,0 +1,9 @@
+[2022-02-19T19:22:02.191] [WARN] outwarning - Try to access non existing route GET - /noexiste
+[2022-02-19T19:22:02.517] [WARN] outwarning - Try to access non existing route GET - /favicon.ico
+[2022-02-19T19:47:40.314] [WARN] outwarning - Try to access non existing route GET - /favicon.ico
+[2022-02-19T19:47:42.389] [WARN] outwarning - Try to access non existing route GET - /favicon.ico
+[2022-02-19T19:51:53.587] [WARN] outwarning - Try to access non existing route GET - /favicon.ico
+[2022-02-19T19:52:25.973] [WARN] outwarning - Try to access non existing route GET - /favicon.ico
+[2022-02-19T19:52:30.027] [WARN] outwarning - Try to access non existing route GET - /favicon.ico
+[2022-02-19T19:52:31.675] [WARN] outwarning - Invalid password
+[2022-02-19T19:52:31.885] [WARN] outwarning - Try to access non existing route GET - /favicon.ico

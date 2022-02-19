@@ -1,7 +1,9 @@
 const nodemailer = require('nodemailer')
 const path = require('path')
 const { productosModel : dbproducto } = require('../config/db')
-const {sendSMS}  = require('./sendSMSCarrito.js')
+
+const {sendSMS}  = require('./twilioSMS.js')
+const {sendWSAP}  = require('./twilioWSAP.js')
 
 const gmailUser = 'martin.ariel.riveros@gmail.com'
 const gmailpass = 'wbfyjvnnqbyolkbw'
@@ -22,7 +24,7 @@ const transporter = nodemailer.createTransport({
 
 async function newuserEmail(data){
 
-  const {useremail, userpass, username, useradress, userage, userphone, userpic } = data[0]
+  const {useremail, username, useradress, userage, userintcod, userareacod, userpic } = data[0]
   
   let emailNewUser = `
             <h1>New user added</h1>
@@ -31,8 +33,7 @@ async function newuserEmail(data){
             <h3>nombre: ${username}</h3>
             <h3>direccion: ${useradress}</h3>
             <h3>edad: ${userage}</h3>
-            <h3>telefono: ${userphone}</h3>
-            <h3>foto: ${userpic}</h3>  
+            <h3>telefono: ${userintcod} ${userareacod}</h3>  
     `
     let messageNewUSer = {
         from: gmailUser,
@@ -42,39 +43,47 @@ async function newuserEmail(data){
       };
 
       const infoNewUser = await transporter.sendMail(messageNewUSer)  
-      console.log(infoNewUser.messageId)
+      logger.getLogger('consola').info(infoNewUser.messageId)
 }
 
 
-async function newPurchaseEmail(cart){
-    
-  let cartArray = Object.values(cart)
+async function newPurchase(cart){
+
   
+  let cartArray = Object.values(cart)
   sendSMS(cartArray[0].id_carrito)
-  sendWAPP(cartArray[0].id_carrito)
   
   let tablePurchaseHTML= `
   <h1>Detalle de compra</h1>
   <h2>pedido ${cartArray[0].id_carrito}</h2>
-`
-  for (const element of cartArray){
+  `
+  let total = 0;
 
-  const articulo =  await dbproducto.findOne({id_producto:element.id_producto})
+  for (const [  i, element ] of cartArray.entries()){
+    const articulo =  await dbproducto.find({id_producto: element.id_producto})
+  
+    tablePurchaseHTML += `
+    <h3>Articulo:${articulo[0].name} </h3>
+    <h3>Precio unitario:${articulo[0].price}</h3>
+    <h3>Cantidad:${element.cantidad}</h3>
+    <h3>Precio total del item:${articulo[0].price*element.cantidad}</h3>
+    `;
+    total += articulo[0].price*element.cantidad
+  }
+  tablePurchaseHTML += `<h3>El precio total de la compra es: ${total}</h3>`
 
-  tablePurchaseHTML += `
-                      <h3>Articulo:${articulo.name} </h3><h3>Precio unitario:${articulo.price}</h3><h3>Cantidad:${element.cantidad}</h3><h3>Precio total del item:${articulo.price*element.cantidad}</h3> 
-                      `;
+  let messageNewPurchase = {
+    from: gmailUser,
+    to:'beledo.m@gmail.com',
+    subject: `Nuevo pedido`,
+    // subject: `Nuevo pedido de: ${username} - ${useremail}`,
+    html: tablePurchaseHTML
+  };
+  
+  const infoNewPurchase = await transporter.sendMail(messageNewPurchase)  
+  logger.getLogger('consola').info(infoNewPurchase.messageId)
+  sendWSAP(cartArray[0].id_carrito)
+  
 }
-let messageNewPurchase = {
-                            from: gmailUser,
-                            to:'martin.riveros@hotmail.com',
-                            subject: `Nuevo pedido de: ${username} - ${useremail}`,
-                            html: tablePurchaseHTML
-};
 
-const infoNewPurchase = await transporter.sendMail(messageNewPurchase)  
-console.log(infoNewPurchase.messageId)
-
-}
-
-module.exports = { newuserEmail, newPurchaseEmail }
+module.exports = { newuserEmail, newPurchase }
